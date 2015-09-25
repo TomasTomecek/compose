@@ -147,7 +147,7 @@ def _get_legacy_containers_iter(
         services,
         one_off=False):
 
-    containers = client.containers(all=True)
+    containers = client.containers(all=True) or []
 
     for service in services:
         for container in containers:

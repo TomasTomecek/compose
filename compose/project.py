@@ -325,7 +325,7 @@ class Project(object):
             Container.from_ps(self.client, container)
             for container in self.client.containers(
                 all=stopped,
-                filters={'label': self.labels(one_off=one_off)})]))
+                filters={'label': self.labels(one_off=one_off)}) or []]))
 
         def matches_service_names(container):
             return container.labels.get(LABEL_SERVICE) in service_names

@@ -130,7 +130,7 @@ class Service(object):
             Container.from_ps(self.client, container)
             for container in self.client.containers(
                 all=stopped,
-                filters=filters)]))
+                filters=filters) or []]))
 
         if not containers:
             check_for_legacy_containers(
@@ -146,7 +146,7 @@ class Service(object):
         container must be active, and match `number`.
         """
         labels = self.labels() + ['{0}={1}'.format(LABEL_CONTAINER_NUMBER, number)]
-        for container in self.client.containers(filters={'label': labels}):
+        for container in self.client.containers(filters={'label': labels}) or []:
             return Container.from_ps(self.client, container)
 
         raise ValueError("No container found for %s_%s" % (self.name, number))
@@ -531,7 +531,7 @@ class Service(object):
             Container.from_ps(self.client, container)
             for container in self.client.containers(
                 all=True,
-                filters={'label': self.labels(one_off=one_off)})
+                filters={'label': self.labels(one_off=one_off)}) or []
         ])
         numbers = [c.number for c in containers]
         return 1 if not numbers else max(numbers) + 1

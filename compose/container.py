@@ -202,7 +202,7 @@ class Container(object):
     # TODO: only used by tests, move to test module
     def links(self):
         links = []
-        for container in self.client.containers():
+        for container in self.client.containers() or []:
             for name in container['Names']:
                 bits = name.split('/')
                 if len(bits) > 2 and bits[1] == self.name:
